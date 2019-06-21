@@ -13,6 +13,7 @@
     <h3>{title}</h3>
     <PostFeaturedImage featuredImage={featuredImage}/>
     <p class="short">{short}</p>
+    <a href="">go to post =></a>
 </div>
 {:else}
 <div>

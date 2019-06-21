@@ -25,32 +25,39 @@ function createAssetUrl(assetId) {
 async function getAsset(assetID) {
     let res = await fetch(createAssetUrl(assetID))
     let body = await res.text()
+    // console.log(body)
     let content = JSON.parse(body).fields
-    let {title, file, fileName, contentType} = content;
+    let {title, file} = content;
     let {height, width} = file.details.image
-    let {src} = file
+    let src = file.url
+    return ({title, height, width, src})
+}
+
+async function parsePost(post) {
+    let {title, short, description, featuredImage} = post.fields;
+
+    let parsedDescription = documentToHtmlString(description)
+    let resolvedFeatureImage = await getAsset(featuredImage.sys.id)
+    // console.log({resolvedFeatureImage})
+
     return {
-        title, fileName, contentType, height, width, src
+        title,
+        short,
+        description: parsedDescription,
+        featuredImage: resolvedFeatureImage
     }
+}
+
+async function parsePosts(posts) {
+    const parsedPosts = posts.map(parsePost)
+    return await Promise.all(parsedPosts)
 }
 
 async function getPosts() {
     const res = await fetch(createContentTypeUrl(CONTENT_TYPES.POST));
     const body = await res.text();
-    const items = JSON.parse(body).items
-    const posts = await items.map(item => {
-        let {title, short, description, featuredImage} = item.fields;
-
-        let parsedDescription = documentToHtmlString(description)
-        let resolvedFeatureImage = getAsset(featuredImage.sys.id)
-        console.log(resolvedFeatureImage)
-        return {
-            title,
-            short,
-            description: parsedDescription,
-            featuredImage: resolvedFeatureImage
-        }
-    })
+    const items = JSON.parse(body).items;
+    const posts = await parsePosts(items);
 
     if (res.ok) {
         return posts;
