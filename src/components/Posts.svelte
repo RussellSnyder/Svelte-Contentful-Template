@@ -1,5 +1,5 @@
 <script>
-	import {getPosts} from "./Contentful.service";
+	import {getPosts} from "../Contentful.service";
     let posts = getPosts();
     import Post from './Post.svelte';
 </script>

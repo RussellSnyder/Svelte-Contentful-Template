@@ -1,11 +1,14 @@
 <script>
+    import NavLink from "./NavLink.svelte";
+    import PostFeaturedImage from './PostFeaturedImage.svelte'
+
 	export let title;
 	export let short;
 	export let description;
+	export let slug;
 	export let featuredImage;
 	export let isPreview = false;
-
-    import PostFeaturedImage from './PostFeaturedImage.svelte'
+    export let blogBase = "blog/";
 </script>
 
 {#if isPreview}
@@ -13,7 +16,7 @@
     <h3>{title}</h3>
     <PostFeaturedImage featuredImage={featuredImage}/>
     <p class="short">{short}</p>
-    <a href="">go to post =></a>
+    <NavLink to={blogBase + slug}>to Post</NavLink>
 </div>
 {:else}
 <div>

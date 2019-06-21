@@ -6,7 +6,9 @@ import { terser } from 'rollup-plugin-terser';
 
 const production = !process.env.ROLLUP_WATCH;
 
-export default {
+export default [
+        // browser bundle
+    {
 	input: 'src/main.js',
 	output: {
 		sourcemap: true,
@@ -16,6 +18,7 @@ export default {
 	},
 	plugins: [
 		svelte({
+            hydratable: true,
 			// enable run-time checks when not in production
 			dev: !production,
 			// we'll extract any component CSS out into
@@ -44,4 +47,23 @@ export default {
 	watch: {
 		clearScreen: false
 	}
-};
+},
+    // Server bundle
+    {
+        input: "src/App.svelte",
+        output: {
+            sourcemap: false,
+            format: "cjs",
+            name: "app",
+            file: "public/App.js"
+        },
+        plugins: [
+            svelte({
+                generate: "ssr"
+            }),
+            resolve(),
+            commonjs(),
+            production && terser()
+        ]
+    }
+]

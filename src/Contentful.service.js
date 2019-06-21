@@ -1,4 +1,6 @@
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+import slugify from 'slugify'
+
 // TODO make this secret in a .env file
 const BASE_URL = 'https://cdn.contentful.com';
 
@@ -42,6 +44,7 @@ async function parsePost(post) {
 
     return {
         title,
+        slug: slugify(title),
         short,
         description: parsedDescription,
         featuredImage: resolvedFeatureImage
