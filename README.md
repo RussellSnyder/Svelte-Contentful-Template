@@ -24,3 +24,13 @@ npm modules in Svelte don't work somehow, so we did contentful api mainplatoin d
 contentful changing model names - doesn't always change the content if
 
 reload the svelte compiler often - sometimes errors occur that aren't noticed byu the watcher
+
+External css libraries are kinda hard to use....
+
+## Todo
+
+- client side routing leads to styles not being injected properly - switch to server side routing
+- Fetch pages seperately and have a better key-value system
+
+
+

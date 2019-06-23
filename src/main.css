@@ -1,0 +1,17 @@
+@import "../node_modules/materialize-css/dist/css/materialize.css";
+
+/* App.svelte css is ignored so putting it here */
+.nav-wrapper > a:first-of-type {
+    font-size: 2em
+}
+
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}

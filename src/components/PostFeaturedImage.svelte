@@ -3,10 +3,9 @@
         width: 100%;
         height: auto;
     }
-    .image-container {
-            max-height: 200px;
-            overflow: hidden;
-
+    .image-container .isPreview {
+        max-height: 200px;
+        overflow: hidden;
     }
 </style>
 
@@ -19,6 +18,6 @@
     {#await featuredImage}
         <img class:isPreview={isPreview} src="https://picsum.photos/1000/300" alt="placeholder">
     {:then featuredImage}
-        <img class:isPreview={isPreview} src={featuredImage.src} alt={featuredImage.title}>
+        <img style="width: 100%; display: block; margin: auto" class:isPreview={isPreview} src={featuredImage.src} alt={featuredImage.title}>
     {/await}
 </div>

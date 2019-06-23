@@ -12,14 +12,20 @@
 </script>
 
 {#if isPreview}
-<div>
-    <h3>{title}</h3>
-    <PostFeaturedImage featuredImage={featuredImage}/>
-    <p class="short">{short}</p>
-    <NavLink to={blogBase + slug}>to Post</NavLink>
+<div class="card">
+    <div class="card-image">
+        <PostFeaturedImage featuredImage={featuredImage}/>
+        <span class="card-title">{title}</span>
+    </div>
+    <div class="card-content">
+        <p class="short">{short}</p>
+    </div>
+    <div class="card-action">
+        <NavLink to={blogBase + slug}>to Post</NavLink>
+    </div>
 </div>
 {:else}
-<div>
+<div class="col s12">
     <h3>{title}</h3>
     <PostFeaturedImage featuredImage={featuredImage}/>
     <div class="description">

@@ -9,11 +9,20 @@ const ACCESS_TOKEN = 'YMoCozD4If0atTclUbawpcZLyCiuReu4gCI0OY_n7sg';
 const ENVIRONMENT = 'master';
 
 const CONTENT_TYPES = {
-    POST: "post"
+    POST: "post",
+    PAGE: "page"
+};
+
+const PAGE_ENTRY_IDS = {
+    ABOUT: "70T0i4KEuh3btjuphLOuTG",
+    BLOG: "CXXZY3lSgDwgsRLmdF7lE",
+    HOME: "2XrFh3awtYrRJN8t1eYJJ0"
 }
+
 
 const allEntriesEndpoint = `/spaces/${SPACE_ID}/environments/${ENVIRONMENT}/entries?access_token=${ACCESS_TOKEN}`
 const assetsEndpoint = `/spaces/${SPACE_ID}/environments/${ENVIRONMENT}/assets/`
+const entriesEndpoint = `/spaces/${SPACE_ID}/environments/${ENVIRONMENT}/entries/`
 
 
 function createContentTypeUrl(contentType) {
@@ -24,7 +33,12 @@ function createAssetUrl(assetId) {
     return `${BASE_URL}${assetsEndpoint}${assetId}?access_token=${ACCESS_TOKEN}`
 }
 
-async function getAsset(assetID) {
+function createEntryUrl(entryId) {
+    return `${BASE_URL}${entriesEndpoint}${entryId}?access_token=${ACCESS_TOKEN}`
+}
+
+
+async function getImageAsset(assetID) {
     let res = await fetch(createAssetUrl(assetID))
     let body = await res.text()
     // console.log(body)
@@ -35,11 +49,13 @@ async function getAsset(assetID) {
     return ({title, height, width, src})
 }
 
+// todo parse image in seperate function
+
 async function parsePost(post) {
     let {title, short, description, featuredImage} = post.fields;
 
     let parsedDescription = documentToHtmlString(description)
-    let resolvedFeatureImage = await getAsset(featuredImage.sys.id)
+    let resolvedFeatureImage = await getImageAsset(featuredImage.sys.id)
     // console.log({resolvedFeatureImage})
 
     return {
@@ -63,10 +79,45 @@ async function getPosts() {
     const posts = await parsePosts(items);
 
     if (res.ok) {
+        console.log({posts})
         return posts;
     } else {
         throw new Error(items);
     }
 }
 
-export { getPosts }
+function parsePage(fields) {
+    let {title, description} = fields;
+
+    return {
+        title,
+        description: documentToHtmlString(description),
+    }
+}
+
+async function getPage(entryID) {
+    const res = await fetch(createEntryUrl(entryID));
+    const body = await res.text();
+    const fields = JSON.parse(body).fields;
+    const parsedPage = await parsePage(fields)
+    console.log({parsedPage})
+    if (res.ok) {
+        return parsedPage;
+    } else {
+        throw new Error(fields);
+    }
+}
+
+async function getHomePageData() {
+    return getPage(PAGE_ENTRY_IDS.HOME)
+}
+
+async function getAboutPageData() {
+    return getPage(PAGE_ENTRY_IDS.ABOUT)
+}
+
+async function getBlogPageData() {
+    return getPage(PAGE_ENTRY_IDS.BLOG)
+}
+
+export { getPosts, getHomePageData, getAboutPageData, getBlogPageData }

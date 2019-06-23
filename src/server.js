@@ -11,6 +11,7 @@ server.get("*", function(req, res) {
 
     res.write(`
     <!DOCTYPE html>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel='stylesheet' href='/global.css'>
     <link rel='stylesheet' href='/bundle.css'>
     <div id="app">${html}</div>

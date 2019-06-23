@@ -1,21 +1,26 @@
 <script >
      import { Router, Link, Route } from "svelte-routing";
     import Post from '../components/Post.svelte';
-    import { getPosts } from '../Contentful.service';
+    import PageHeader from '../components/PageHeader.svelte';
+    import { getPosts, getBlogPageData } from '../Contentful.service';
     const posts = getPosts()
+    const blogPageData = getBlogPageData()
 </script>
+
+
+<PageHeader page={blogPageData}/>
 
 {#await posts}
     <p>...loading</p>
 {:then posts}
 <Router>
-  <h1>Blog</h1>
-
-  <ul>
-    {#each posts as post}
-        <li><Link to={post.slug}>{post.title}</Link></li>
-    {/each}
-  </ul>
+   <div class="row">
+      <ul class="collection col s12 m6">
+        {#each posts as post}
+            <li class="collection-item"><Link to={post.slug}>{post.title} - {post.short}</Link></li>
+        {/each}
+      </ul>
+    </div>
     {#each posts as post}
       <Route path={post.slug}>
           <Post {...post}/>
