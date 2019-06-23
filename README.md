@@ -1,36 +1,41 @@
 # Svelte-Contentful-Template
 Speed and Scalability for your web app
 
+live at: http://clumsy-society.surge.sh/
+
+## Background
+
+With the move to more server side, static page rendering with React+Next (or Vue+Nuxt), there appears to be a trend moving away from run time to build time.
+Svelte capitalizes on this fact.  it is a compiled framework optimzing code at build time instead of runtime.
+Maybe it won't be the future, but in case it is, here's a template for using it with Contentful!
+
 ## Before we start
 
-### Learn about Svelte: https://svelte.dev
+Learn about Svelte: https://svelte.dev
+Learn about Contentful: contentful.com
 
-Why are we doing so much stuff at build time.  Compile time makes waaaaay more sense.  
-React is moving this direction - Next, static compiling, server side rendering, etc...
-Why not use more low level javascript?  Why be so dependent on Frameworks?
-
-### Learn about Contentful: contentful.com
-
-We need data for any app, but where should that data live?  
 Contentful is more than a headless CMS, it's an efficient way to get your data in and out of whatever app you are building.
-In a nut shell, you use a beautiful web app to create and populate custom content models and then call your data from an auto generated API.
+In a nut shell, you create and populate custom content models and then call your data from an well documented API.
 You were gonna make an API anyway, right?  Just let Contentful do it for you and go play outside :-D
 
+## Technical Challenges
 
-## Gotchas
+I decided to manually write the Contenful API requests instead of using the NPM package to better understand the API.
+Svelte has great async await implementation, so I made extensive use of it.
 
-npm modules in Svelte don't work somehow, so we did contentful api mainplatoin directly
+## Gotchas Learned
 
-contentful changing model names - doesn't always change the content if
+- npm modules in Svelte don't work the same as with react.  Webpack is not rollup
 
-reload the svelte compiler often - sometimes errors occur that aren't noticed byu the watcher
+- changing model names in contentful doesn't change the content id which was auto set when you created the model
 
-External css libraries are kinda hard to use....
+- reload the svelte compiler often - sometimes errors occur that aren't noticed byu the watcher
+
+- External css libraries are kinda hard to use.  Had to implement a precompiler for css
 
 ## Todo
 
-- client side routing leads to styles not being injected properly - switch to server side routing
-- Fetch pages seperately and have a better key-value system
+- add server side routing in addition to client side.  Currently only works form home page entry '/'
 
 
 
